@@ -97,7 +97,12 @@
             android:id="@+id/v_horizontal_rule_1"
             app:layout_constraintTop_toBottomOf="@id/tv_movie_overview"
             android:layout_width="match_parent"
-            android:layout_height="2dp" />
+            android:layout_height="2dp"
+            android:background="@color/colorDark"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"/>
 
         <TextView
             android:id="@+id/tv_trailers_header"
@@ -137,7 +142,12 @@
             android:id="@+id/v_horizontal_rule_2"
             app:layout_constraintTop_toBottomOf="@id/cl_trailer_1"
             android:layout_width="match_parent"
-            android:layout_height="2dp" />
+            android:layout_height="2dp"
+            android:background="@color/colorDark"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"/>
 
     </android.support.constraint.ConstraintLayout>
 
