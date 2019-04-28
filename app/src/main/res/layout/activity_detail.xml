@@ -58,21 +58,29 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/tv_movie_minutes"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"/>
 
                 <TextView
                     android:id="@+id/tv_movie_minutes"
                     app:layout_constraintTop_toBottomOf="@id/tv_movie_year"
                     app:layout_constraintBottom_toTopOf="@id/tv_movie_rating"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textStyle="italic" />
 
                 <TextView
                     android:id="@+id/tv_movie_rating"
                     app:layout_constraintTop_toBottomOf="@id/tv_movie_minutes"
                     app:layout_constraintBottom_toTopOf="@id/btn_mark_favorite"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp" />
 
                 <Button
                     android:id="@+id/btn_mark_favorite"
@@ -80,7 +88,9 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_label_mark_favorite"
+                    android:textAllCaps="true" />
 
             </android.support.constraint.ConstraintLayout>
 
