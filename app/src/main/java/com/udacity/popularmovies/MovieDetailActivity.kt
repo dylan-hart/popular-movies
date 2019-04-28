@@ -2,11 +2,17 @@ package com.udacity.popularmovies
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.format.DateFormat
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import com.udacity.popularmovies.data.Movie
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class MovieDetailActivity : AppCompatActivity() {
 
@@ -27,7 +33,7 @@ class MovieDetailActivity : AppCompatActivity() {
         movieTitleTextView.text = movie.title
 
         val movieYearTextView = findViewById<TextView>(R.id.tv_movie_year)
-        movieYearTextView.text = movie.releaseDate
+        movieYearTextView.text = getYear(movie.releaseDate)
 
         val movieMinutesTextView = findViewById<TextView>(R.id.tv_movie_minutes)
         movieMinutesTextView.text = "120min" // TODO Look up actual length.
@@ -39,5 +45,12 @@ class MovieDetailActivity : AppCompatActivity() {
         movieOverviewTextView.text = movie.overview
 
         // TODO Process trailers.
+    }
+
+    private fun getYear(date: String): String {
+        val formatDate = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val date = formatDate.parse(date)
+        val formatYear = SimpleDateFormat("yyyy", Locale.US)
+        return formatYear.format(date)
     }
 }
