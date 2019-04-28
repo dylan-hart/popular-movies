@@ -14,7 +14,8 @@ interface MovieService {
 
     companion object Factory {
         private const val URL_POPULAR_MOVIES = "http://api.themoviedb.org/3/movie/"
-        private const val URL_POSTER = "http://image.tmdb.org/t/p/w185"
+        // TODO Create a utility function to auto-detect best rez
+        const val URL_POSTER = "http://image.tmdb.org/t/p/w342"
         fun create(): MovieService {
             val retrofit = Retrofit.Builder()
                 .baseUrl(URL_POPULAR_MOVIES)

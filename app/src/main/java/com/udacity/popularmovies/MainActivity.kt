@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private val TAG = MainActivity::class.java.name.toString()
+        // TODO Create utility function to auto-calc span
         private const val SPAN = 2
     }
 
@@ -34,14 +35,11 @@ class MainActivity : AppCompatActivity() {
     private fun getPopularMovies() {
         val movieService = MovieService.create()
         val call = movieService.requestPopularMovies(BuildConfig.API_KEY_TMDB)
-        Log.d(TAG, call.toString())
         call.enqueue(object : Callback<Page> {
             override fun onResponse(call: Call<Page>, response: retrofit2.Response<Page>?) {
                 if (response != null) {
                     val movies = response.body()?.movies!!
-                    for (movie in movies) {
-                        Log.d(TAG, movie.title)
-                    }
+                    mMoviesAdapter.setMovieData(movies)
                 }
             }
 
