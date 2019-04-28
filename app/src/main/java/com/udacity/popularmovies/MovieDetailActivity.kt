@@ -2,16 +2,11 @@ package com.udacity.popularmovies
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.text.format.DateFormat
-import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import com.udacity.popularmovies.data.Movie
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class MovieDetailActivity : AppCompatActivity() {
@@ -47,9 +42,9 @@ class MovieDetailActivity : AppCompatActivity() {
         // TODO Process trailers.
     }
 
-    private fun getYear(date: String): String {
+    private fun getYear(dateString: String): String {
         val formatDate = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-        val date = formatDate.parse(date)
+        val date = formatDate.parse(dateString)
         val formatYear = SimpleDateFormat("yyyy", Locale.US)
         return formatYear.format(date)
     }
