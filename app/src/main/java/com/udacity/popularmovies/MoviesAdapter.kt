@@ -1,6 +1,7 @@
 package com.udacity.popularmovies
 
 import android.app.Activity
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.util.DisplayMetrics
 import android.util.Log
@@ -36,6 +37,11 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val posterPath = movies[position].posterPath
         Picasso.get().load(MovieService.URL_POSTER + posterPath).into(holder.posterImageView)
+        holder.posterImageView.setOnClickListener {
+            val intent = Intent(holder.posterImageView.context, MovieDetailActivity::class.java)
+            intent.putExtra(Movie.EXTRA_MOVIE, movies[position])
+            holder.posterImageView.context.startActivity(intent)
+        }
     }
 
     fun setMovieData(movies: Array<Movie>) {

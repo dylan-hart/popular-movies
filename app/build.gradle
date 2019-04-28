@@ -12,6 +12,10 @@ repositories {
     mavenCentral()
 }
 
+androidExtensions {
+    experimental = true
+}
+
 android {
     compileSdkVersion 28
     defaultConfig {
