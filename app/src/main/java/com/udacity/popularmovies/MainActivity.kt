@@ -9,7 +9,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
+import com.udacity.popularmovies.data.Movie
 import com.udacity.popularmovies.data.Page
 import retrofit2.Call
 import retrofit2.Callback
@@ -23,9 +23,18 @@ class MainActivity : AppCompatActivity() {
         private const val VIEW_POSITION = "VIEW_POSITION"
     }
 
+    enum class MovieType {
+        UNINITIALIZED,
+        MOST_POPULAR,
+        TOP_RATED
+    }
+
     private lateinit var mRecyclerView: RecyclerView
     private var mMoviesAdapter = MoviesAdapter()
     private var mViewPosition = 0
+    private var mPopularMovies: Array<Movie>? = null
+    private var mTopRatedMovies: Array<Movie>? = null
+    private var mMovieType = MovieType.UNINITIALIZED
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         val span = resources.getInteger(R.integer.movie_grid_span)
         mRecyclerView.layoutManager = GridLayoutManager(this, span)
 
-        getPopularMovies()
+        showPopularMovies()
 
         if (savedInstanceState != null) {
             mViewPosition = savedInstanceState.getInt(VIEW_POSITION)
@@ -73,49 +82,63 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_sort_by_most_popular -> {
                 item.isChecked = true
-                mMoviesAdapter.setSortingMethod(MoviesAdapter.Sort.MOST_POPULAR)
+                showPopularMovies()
                 true
             }
             R.id.action_sort_by_highest_rated -> {
                 item.isChecked = true
-                mMoviesAdapter.setSortingMethod(MoviesAdapter.Sort.HIGHEST_RATED)
+                showTopRatedMovies()
                 true
             }
             else -> false
         }
     }
 
-    private fun getPopularMovies() {
-        val movieService = MovieService.create()
-        val call = movieService.requestPopularMovies(BuildConfig.API_KEY_TMDB)
-        call.enqueue(object : Callback<Page> {
-            override fun onResponse(call: Call<Page>, response: Response<Page>?) {
-                if (response != null) {
-                    val movies = response.body()?.movies!!
-                    mMoviesAdapter.setMovieData(movies)
-                }
-            }
+    private fun showPopularMovies() {
+        if (mMovieType != MovieType.MOST_POPULAR) {
+            mMovieType = MovieType.MOST_POPULAR
+            if (mPopularMovies != null) {
+                mMoviesAdapter.setMovieData(mPopularMovies!!)
+            } else {
+                val movieService = MovieService.create()
+                val call = movieService.requestPopularMovies(BuildConfig.API_KEY_TMDB)
+                call.enqueue(object : Callback<Page> {
+                    override fun onResponse(call: Call<Page>, response: Response<Page>?) {
+                        if (response != null) {
+                            mPopularMovies = response.body()?.movies
+                            mMoviesAdapter.setMovieData(mPopularMovies!!)
+                        }
+                    }
 
-            override fun onFailure(call: Call<Page>, t: Throwable) {
-                Log.e(TAG, t.toString())
+                    override fun onFailure(call: Call<Page>, t: Throwable) {
+                        Log.e(TAG, t.toString())
+                    }
+                })
             }
-        })
+        }
     }
 
-    private fun getTopRatedMovies() {
-        val movieService = MovieService.create()
-        val call = movieService.requestTopRatedMovies(BuildConfig.API_KEY_TMDB)
-        call.enqueue(object : Callback<Page> {
-            override fun onResponse(call: Call<Page>, response: Response<Page>?) {
-                if (response != null) {
-                    val movies = response.body()?.movies!!
-                    mMoviesAdapter.setMovieData(movies)
-                }
-            }
+    private fun showTopRatedMovies() {
+        if (mMovieType != MovieType.TOP_RATED) {
+            mMovieType = MovieType.TOP_RATED
+            if (mTopRatedMovies != null) {
+                mMoviesAdapter.setMovieData(mTopRatedMovies!!)
+            } else {
+                val movieService = MovieService.create()
+                val call = movieService.requestTopRatedMovies(BuildConfig.API_KEY_TMDB)
+                call.enqueue(object : Callback<Page> {
+                    override fun onResponse(call: Call<Page>, response: Response<Page>?) {
+                        if (response != null) {
+                            mTopRatedMovies = response.body()?.movies
+                            mMoviesAdapter.setMovieData(mTopRatedMovies!!)
+                        }
+                    }
 
-            override fun onFailure(call: Call<Page>, t: Throwable) {
-                Log.e(TAG, t.toString())
+                    override fun onFailure(call: Call<Page>, t: Throwable) {
+                        Log.e(TAG, t.toString())
+                    }
+                })
             }
-        })
+        }
     }
 }

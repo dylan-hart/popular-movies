@@ -18,13 +18,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
         private val TAG = MoviesAdapter::class.java.name
     }
 
-    enum class Sort {
-        MOST_POPULAR,
-        HIGHEST_RATED
-    }
-
     private var mMovies: Array<Movie> = emptyArray()
-    private var mSortingMethod = Sort.MOST_POPULAR
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -58,40 +52,6 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
     fun setMovieData(movies: Array<Movie>) {
         this.mMovies = movies
-        notifyDataSetChanged()
-    }
-
-    fun setSortingMethod(method: Sort) {
-        if (mSortingMethod != method) {
-            mSortingMethod = method
-            sortMovies()
-        }
-    }
-
-    private fun sortMovies() {
-        // TODO Convert these to lambda expressions.
-        when (mSortingMethod) {
-            Sort.MOST_POPULAR -> mMovies.sortWith(object : Comparator<Movie> {
-                override fun compare(a: Movie?, b: Movie?): Int {
-                    val diff = a?.popularity!! - b?.popularity!!
-                    return when {
-                        diff < 0f -> 1
-                        diff > 0f -> -1
-                        else -> 0
-                    }
-                }
-            })
-            Sort.HIGHEST_RATED -> mMovies.sortWith(object : Comparator<Movie> {
-                override fun compare(a: Movie?, b: Movie?): Int {
-                    val diff = a?.voteAverage!! - b?.voteAverage!!
-                    return when {
-                        diff < 0f -> 1
-                        diff > 0f -> -1
-                        else -> 0
-                    }
-                }
-            })
-        }
         notifyDataSetChanged()
     }
 
