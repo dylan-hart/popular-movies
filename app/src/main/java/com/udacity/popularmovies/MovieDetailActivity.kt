@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import com.udacity.popularmovies.data.Movie
 import com.udacity.popularmovies.data.MovieDetails
@@ -21,6 +22,7 @@ class MovieDetailActivity : AppCompatActivity() {
     }
 
     lateinit var movieMinutesTextView: TextView
+    private var mOriginalOrientation: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +31,11 @@ class MovieDetailActivity : AppCompatActivity() {
         val movie = intent.getParcelableExtra<Movie>(Movie.EXTRA_MOVIE)
 
         val moviePosterImageView = findViewById<ImageView>(R.id.iv_movie_poster)
-        Picasso.get().load(MovieService.URL_POSTER + movie.posterPath).into(moviePosterImageView)
+        moviePosterImageView.transitionName = intent.getStringExtra(MainActivity.EXTRA_TRANSITION_NAME)
+        Picasso.get()
+            .load(MovieService.URL_POSTER + movie.posterPath)
+            .networkPolicy(NetworkPolicy.OFFLINE)
+            .into(moviePosterImageView)
 
         val movieTitleTextView = findViewById<TextView>(R.id.tv_movie_title)
         movieTitleTextView.text = movie.title
@@ -44,6 +50,8 @@ class MovieDetailActivity : AppCompatActivity() {
 
         val movieOverviewTextView = findViewById<TextView>(R.id.tv_movie_overview)
         movieOverviewTextView.text = movie.overview
+
+        mOriginalOrientation = resources.configuration.orientation
 
         // TODO Process trailers.
 

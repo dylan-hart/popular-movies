@@ -2,9 +2,11 @@ package com.udacity.popularmovies
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.SharedElementCallback
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.View
 import com.udacity.popularmovies.data.Page
 import retrofit2.Call
 import retrofit2.Callback
@@ -12,13 +14,14 @@ import retrofit2.Callback
 class MainActivity : AppCompatActivity() {
 
     companion object {
+        const val EXTRA_TRANSITION_NAME = "TRANSITION_NAME"
         private val TAG = MainActivity::class.java.name.toString()
-        // TODO Create utility function to auto-calc span
-        private const val SPAN = 2
+        private const val VIEW_POSITION = "VIEW_POSITION"
     }
 
     private lateinit var mRecyclerView: RecyclerView
     private var mMoviesAdapter = MoviesAdapter()
+    private var mViewPosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,9 +30,33 @@ class MainActivity : AppCompatActivity() {
         mRecyclerView = findViewById(R.id.rv_posters)
         mRecyclerView.setHasFixedSize(true)
         mRecyclerView.adapter = mMoviesAdapter
-        mRecyclerView.layoutManager = GridLayoutManager(this, SPAN)
+        val span = resources.getInteger(R.integer.movie_grid_span)
+        mRecyclerView.layoutManager = GridLayoutManager(this, span)
 
         getPopularMovies()
+
+        if (savedInstanceState != null) {
+            mViewPosition = savedInstanceState.getInt(VIEW_POSITION)
+            setExitSharedElementCallback(object : SharedElementCallback() {
+                override fun onMapSharedElements(
+                    names: MutableList<String>?,
+                    sharedElements: MutableMap<String, View>?
+                ) {
+                    super.onMapSharedElements(names, sharedElements)
+                    if (sharedElements?.isEmpty()!!) {
+                        val view = mRecyclerView.layoutManager?.findViewByPosition(mViewPosition)
+                        if (view != null) {
+                            sharedElements.put(names?.get(0)!!, view)
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putInt(VIEW_POSITION, mViewPosition)
     }
 
     private fun getPopularMovies() {

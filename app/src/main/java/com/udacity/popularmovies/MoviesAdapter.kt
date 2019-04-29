@@ -2,6 +2,7 @@ package com.udacity.popularmovies
 
 import android.app.Activity
 import android.content.Intent
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.RecyclerView
 import android.util.DisplayMetrics
 import android.util.Log
@@ -24,10 +25,11 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.movie_grid_item, parent, false)
         val displayMetrics = DisplayMetrics()
-        // TODO Create utility function to determine best height (consider landscape)
         val activity: Activity = parent.context as Activity
         activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
-        return ViewHolder(view, displayMetrics.heightPixels / 2)
+        val height = displayMetrics.heightPixels
+        val rows = activity.resources.getInteger(R.integer.movie_grid_rows)
+        return ViewHolder(view, height / rows)
     }
 
     override fun getItemCount(): Int {
@@ -37,10 +39,15 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val posterPath = movies[position].posterPath
         Picasso.get().load(MovieService.URL_POSTER + posterPath).into(holder.posterImageView)
+        holder.posterImageView.transitionName = "movie_poster_$position"
         holder.posterImageView.setOnClickListener {
-            val intent = Intent(holder.posterImageView.context, MovieDetailActivity::class.java)
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(it.context as Activity,
+                it,
+                it.transitionName)
+            val intent = Intent(it.context, MovieDetailActivity::class.java)
             intent.putExtra(Movie.EXTRA_MOVIE, movies[position])
-            holder.posterImageView.context.startActivity(intent)
+            intent.putExtra(MainActivity.EXTRA_TRANSITION_NAME, it.transitionName)
+            it.context.startActivity(intent, options.toBundle())
         }
     }
 
