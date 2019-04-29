@@ -87,7 +87,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/button_label_mark_favorite"
-                    android:textAllCaps="true" />
+                    android:textAllCaps="true"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:background="@color/colorPrimaryButton"
+                    android:textColor="@color/colorGrey"
+                    android:textSize="12sp"/>
 
             </android.support.constraint.ConstraintLayout>
 
