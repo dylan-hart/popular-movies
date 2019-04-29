@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         private const val SAVED_MOVIE_TYPE = "MOVIE_TYPE"
         private const val SAVED_POPULAR_MOVIES = "POPULAR_MOVIES"
         private const val SAVED_TOP_RATED_MOVIES = "TOP_RATED_MOVIES"
+        private const val SAVED_RECYCLER_LAYOUT = "RECYCLER_LAYOUT"
     }
 
     @Parcelize
@@ -68,10 +69,12 @@ class MainActivity : AppCompatActivity() {
                         if (view != null) {
                             sharedElements.put(names?.get(0)!!, view)
                         }
-                        // TODO Scroll so that shared element is at the same vertical position.
                     }
                 }
             })
+
+            val savedLayout = savedInstanceState.getParcelable<Parcelable>(SAVED_RECYCLER_LAYOUT)
+            mRecyclerView.layoutManager!!.onRestoreInstanceState(savedLayout)
 
             mMovieType = savedInstanceState.getParcelable(SAVED_MOVIE_TYPE)
             // TODO Check the appropriate menu item.
@@ -89,6 +92,7 @@ class MainActivity : AppCompatActivity() {
         outState?.putParcelable(SAVED_MOVIE_TYPE, mMovieType as Parcelable)
         outState?.putParcelableArray(SAVED_POPULAR_MOVIES, mPopularMovies)
         outState?.putParcelableArray(SAVED_TOP_RATED_MOVIES, mTopRatedMovies)
+        outState?.putParcelable(SAVED_RECYCLER_LAYOUT, mRecyclerView.layoutManager!!.onSaveInstanceState())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
