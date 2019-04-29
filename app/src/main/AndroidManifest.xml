@@ -22,7 +22,7 @@
         </activity>
         <activity
             android:name=".MovieDetailActivity"
-            android:label="@string/movie_detail_activity_label"/>.
+            android:label="@string/movie_detail_activity_label"/>
     </application>
 
 </manifest>
