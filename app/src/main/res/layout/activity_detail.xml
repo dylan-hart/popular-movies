@@ -4,6 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- TODO Push all values into value resource files -->
+    <!-- TODO Create value resource files for different screen sizes -->
+    <!-- TODO Handle contentDescription for ImageViews -->
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

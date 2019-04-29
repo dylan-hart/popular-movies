@@ -74,6 +74,7 @@ class MainActivity : AppCompatActivity() {
             })
 
             mMovieType = savedInstanceState.getParcelable(SAVED_MOVIE_TYPE)
+            // TODO Check the appropriate menu item.
             mPopularMovies = savedInstanceState.getParcelableArray(SAVED_POPULAR_MOVIES) as Array<Movie>?
             mTopRatedMovies = savedInstanceState.getParcelableArray(SAVED_TOP_RATED_MOVIES) as Array<Movie>?
 

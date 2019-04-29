@@ -11,6 +11,8 @@ import retrofit2.http.Query
 
 interface MovieService {
 
+    // TODO Ensure queries are safe for work.
+
     @GET("popular")
     fun requestPopularMovies(@Query("api_key") apiKey: String) : Call<Page>
 

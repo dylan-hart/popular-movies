@@ -18,7 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".MovieDetailActivity" />
+        <!-- TODO Create string resources for activity labels -->
+        <activity
+            android:name=".MovieDetailActivity"
+            android:label="Movie Detail"/>.
     </application>
 
 </manifest>
