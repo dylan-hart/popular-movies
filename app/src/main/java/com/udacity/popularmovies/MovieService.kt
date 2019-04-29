@@ -14,6 +14,9 @@ interface MovieService {
     @GET("popular")
     fun requestPopularMovies(@Query("api_key") apiKey: String) : Call<Page>
 
+    @GET("top_rated")
+    fun requestTopRatedMovies(@Query("api_key") apiKey: String) : Call<Page>
+
     @GET("{id}")
     fun requestMovieDetails(@Path("id") id: Int, @Query("api_key") apiKey: String) : Call<MovieDetails>
 

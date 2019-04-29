@@ -13,6 +13,7 @@ import android.widget.Toast
 import com.udacity.popularmovies.data.Page
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
@@ -88,7 +89,24 @@ class MainActivity : AppCompatActivity() {
         val movieService = MovieService.create()
         val call = movieService.requestPopularMovies(BuildConfig.API_KEY_TMDB)
         call.enqueue(object : Callback<Page> {
-            override fun onResponse(call: Call<Page>, response: retrofit2.Response<Page>?) {
+            override fun onResponse(call: Call<Page>, response: Response<Page>?) {
+                if (response != null) {
+                    val movies = response.body()?.movies!!
+                    mMoviesAdapter.setMovieData(movies)
+                }
+            }
+
+            override fun onFailure(call: Call<Page>, t: Throwable) {
+                Log.e(TAG, t.toString())
+            }
+        })
+    }
+
+    private fun getTopRatedMovies() {
+        val movieService = MovieService.create()
+        val call = movieService.requestTopRatedMovies(BuildConfig.API_KEY_TMDB)
+        call.enqueue(object : Callback<Page> {
+            override fun onResponse(call: Call<Page>, response: Response<Page>?) {
                 if (response != null) {
                     val movies = response.body()?.movies!!
                     mMoviesAdapter.setMovieData(movies)

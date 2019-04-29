@@ -69,6 +69,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
     }
 
     private fun sortMovies() {
+        // TODO Convert these to lambda expressions.
         when (mSortingMethod) {
             Sort.MOST_POPULAR -> mMovies.sortWith(object : Comparator<Movie> {
                 override fun compare(a: Movie?, b: Movie?): Int {
