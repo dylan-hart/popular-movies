@@ -37,7 +37,9 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val posterPath = mMovies[position].posterPath
-        Picasso.get().load(MovieService.URL_POSTER + posterPath).into(holder.posterImageView)
+        Picasso.get()
+            .load(MovieService.getPosterUrl(holder.posterImageView.context, posterPath))
+            .into(holder.posterImageView)
         holder.posterImageView.transitionName = "movie_poster_$position"
         holder.posterImageView.setOnClickListener {
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(it.context as Activity,

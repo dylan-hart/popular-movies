@@ -1,5 +1,6 @@
 package com.udacity.popularmovies
 
+import android.content.Context
 import com.udacity.popularmovies.data.MovieDetails
 import com.udacity.popularmovies.data.Page
 import retrofit2.Call
@@ -22,14 +23,15 @@ interface MovieService {
 
     companion object Factory {
         private const val URL_POPULAR_MOVIES = "http://api.themoviedb.org/3/movie/"
-        // TODO Create a utility function to auto-detect best rez
-        const val URL_POSTER = "http://image.tmdb.org/t/p/w342"
         fun create(): MovieService {
             val retrofit = Retrofit.Builder()
                 .baseUrl(URL_POPULAR_MOVIES)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             return retrofit.create(MovieService::class.java)
+        }
+        fun getPosterUrl(context: Context, posterPath: String): String {
+            return "http://image.tmdb.org/t/p/${context.resources.getString(R.string.tmdb_thumbnail_resolution)}$posterPath"
         }
     }
 }

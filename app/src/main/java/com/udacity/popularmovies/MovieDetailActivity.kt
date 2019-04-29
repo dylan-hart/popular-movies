@@ -33,7 +33,7 @@ class MovieDetailActivity : AppCompatActivity() {
         val moviePosterImageView = findViewById<ImageView>(R.id.iv_movie_poster)
         moviePosterImageView.transitionName = intent.getStringExtra(MainActivity.EXTRA_TRANSITION_NAME)
         Picasso.get()
-            .load(MovieService.URL_POSTER + movie.posterPath)
+            .load(MovieService.getPosterUrl(this, movie.posterPath))
             .networkPolicy(NetworkPolicy.OFFLINE)
             .into(moviePosterImageView)
 
