@@ -5,7 +5,6 @@ import android.content.Intent
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.RecyclerView
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,13 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
         private val TAG = MoviesAdapter::class.java.name
     }
 
-    private var movies: Array<Movie> = emptyArray()
+    enum class Sort {
+        MOST_POPULAR,
+        HIGHEST_RATED
+    }
+
+    private var mMovies: Array<Movie> = emptyArray()
+    private var mSortingMethod = Sort.MOST_POPULAR
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -33,11 +38,11 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return movies.size
+        return mMovies.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val posterPath = movies[position].posterPath
+        val posterPath = mMovies[position].posterPath
         Picasso.get().load(MovieService.URL_POSTER + posterPath).into(holder.posterImageView)
         holder.posterImageView.transitionName = "movie_poster_$position"
         holder.posterImageView.setOnClickListener {
@@ -45,15 +50,26 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
                 it,
                 it.transitionName)
             val intent = Intent(it.context, MovieDetailActivity::class.java)
-            intent.putExtra(Movie.EXTRA_MOVIE, movies[position])
+            intent.putExtra(Movie.EXTRA_MOVIE, mMovies[position])
             intent.putExtra(MainActivity.EXTRA_TRANSITION_NAME, it.transitionName)
             it.context.startActivity(intent, options.toBundle())
         }
     }
 
     fun setMovieData(movies: Array<Movie>) {
-        this.movies = movies
+        this.mMovies = movies
         notifyDataSetChanged()
+    }
+
+    fun setSortingMethod(method: Sort) {
+        if (mSortingMethod != method) {
+            mSortingMethod = method
+            sortMovies()
+        }
+    }
+
+    private fun sortMovies() {
+        // TODO Sort movies according to mSortingMethod.
     }
 
     class ViewHolder(itemView: View, height: Int) : RecyclerView.ViewHolder(itemView) {

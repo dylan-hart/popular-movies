@@ -70,8 +70,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_sort_by_most_popular -> true
-            R.id.action_sort_by_highest_rated -> true
+            R.id.action_sort_by_most_popular -> {
+                mMoviesAdapter.setSortingMethod(MoviesAdapter.Sort.MOST_POPULAR)
+                true
+            }
+            R.id.action_sort_by_highest_rated -> {
+                mMoviesAdapter.setSortingMethod(MoviesAdapter.Sort.HIGHEST_RATED)
+                true
+            }
             else -> false
         }
     }
