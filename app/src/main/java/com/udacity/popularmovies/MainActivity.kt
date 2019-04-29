@@ -77,7 +77,6 @@ class MainActivity : AppCompatActivity() {
             mRecyclerView.layoutManager!!.onRestoreInstanceState(savedLayout)
 
             mMovieType = savedInstanceState.getParcelable(SAVED_MOVIE_TYPE)
-            // TODO Check the appropriate menu item.
             mPopularMovies = savedInstanceState.getParcelableArray(SAVED_POPULAR_MOVIES) as Array<Movie>?
             mTopRatedMovies = savedInstanceState.getParcelableArray(SAVED_TOP_RATED_MOVIES) as Array<Movie>?
 
@@ -97,6 +96,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
+
+        if (mMovieType == MovieType.MOST_POPULAR) {
+            menu.findItem(R.id.action_sort_by_most_popular).isChecked = true
+        } else if (mMovieType == MovieType.TOP_RATED) {
+            menu.findItem(R.id.action_sort_by_highest_rated).isChecked = true
+        }
+
         return true
     }
 
