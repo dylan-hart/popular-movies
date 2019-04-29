@@ -4,8 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- TODO Create value resource files for different screen sizes -->
-
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -98,6 +96,7 @@
             android:layout_marginTop="@dimen/large"
             android:layout_marginStart="@dimen/large"
             android:layout_marginEnd="@dimen/large"
+            android:textSize="@dimen/text_small"
             app:layout_constraintTop_toBottomOf="@id/barrier_poster_and_favorite" />
 
         <!-- TODO (Part II) Trailer layouts.
