@@ -2,6 +2,7 @@ package com.udacity.popularmovies
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.app.SharedElementCallback
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -11,6 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import com.udacity.popularmovies.data.Movie
 import com.udacity.popularmovies.data.Page
+import kotlinx.android.parcel.Parcelize
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,10 +22,14 @@ class MainActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_TRANSITION_NAME = "TRANSITION_NAME"
         private val TAG = MainActivity::class.java.name.toString()
-        private const val VIEW_POSITION = "VIEW_POSITION"
+        private const val SAVED_SELECTED_MOVIE = "SELECTED_MOVIE"
+        private const val SAVED_MOVIE_TYPE = "MOVIE_TYPE"
+        private const val SAVED_POPULAR_MOVIES = "POPULAR_MOVIES"
+        private const val SAVED_TOP_RATED_MOVIES = "TOP_RATED_MOVIES"
     }
 
-    enum class MovieType {
+    @Parcelize
+    enum class MovieType : Parcelable {
         UNINITIALIZED,
         MOST_POPULAR,
         TOP_RATED
@@ -46,10 +52,11 @@ class MainActivity : AppCompatActivity() {
         val span = resources.getInteger(R.integer.movie_grid_span)
         mRecyclerView.layoutManager = GridLayoutManager(this, span)
 
-        showPopularMovies()
-
-        if (savedInstanceState != null) {
-            mViewPosition = savedInstanceState.getInt(VIEW_POSITION)
+        if (savedInstanceState == null) {
+            showPopularMovies()
+        }
+        else {
+            mViewPosition = savedInstanceState.getInt(SAVED_SELECTED_MOVIE)
             setExitSharedElementCallback(object : SharedElementCallback() {
                 override fun onMapSharedElements(
                     names: MutableList<String>?,
@@ -65,12 +72,22 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             })
+
+            mMovieType = savedInstanceState.getParcelable(SAVED_MOVIE_TYPE)
+            mPopularMovies = savedInstanceState.getParcelableArray(SAVED_POPULAR_MOVIES) as Array<Movie>?
+            mTopRatedMovies = savedInstanceState.getParcelableArray(SAVED_TOP_RATED_MOVIES) as Array<Movie>?
+
+            if (mMovieType == MovieType.MOST_POPULAR) mMoviesAdapter.setMovieData(mPopularMovies!!)
+            else if (mMovieType == MovieType.TOP_RATED) mMoviesAdapter.setMovieData(mTopRatedMovies!!)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-        outState?.putInt(VIEW_POSITION, mViewPosition)
+        outState?.putInt(SAVED_SELECTED_MOVIE, mViewPosition)
+        outState?.putParcelable(SAVED_MOVIE_TYPE, mMovieType as Parcelable)
+        outState?.putParcelableArray(SAVED_POPULAR_MOVIES, mPopularMovies)
+        outState?.putParcelableArray(SAVED_TOP_RATED_MOVIES, mTopRatedMovies)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
