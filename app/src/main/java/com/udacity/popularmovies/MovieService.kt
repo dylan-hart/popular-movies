@@ -6,6 +6,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MovieService {
@@ -13,8 +14,8 @@ interface MovieService {
     @GET("popular")
     fun requestPopularMovies(@Query("api_key") apiKey: String) : Call<Page>
 
-    @GET("movie")
-    fun requestMovieDetails(@Query("api_key") apiKey: String) : Call<MovieDetails>
+    @GET("movie/{id}")
+    fun requestMovieDetails(@Path("id") id: Int, @Query("api_key") apiKey: String) : Call<MovieDetails>
 
     companion object Factory {
         private const val URL_POPULAR_MOVIES = "http://api.themoviedb.org/3/movie/"

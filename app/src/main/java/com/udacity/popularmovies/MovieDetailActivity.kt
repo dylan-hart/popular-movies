@@ -2,10 +2,15 @@ package com.udacity.popularmovies
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import com.udacity.popularmovies.data.Movie
+import com.udacity.popularmovies.data.MovieDetails
+import retrofit2.Call
+import retrofit2.Callback
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -14,6 +19,8 @@ class MovieDetailActivity : AppCompatActivity() {
     companion object {
         val TAG = MovieDetailActivity::class.java.name
     }
+
+    lateinit var movieMinutesTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +37,7 @@ class MovieDetailActivity : AppCompatActivity() {
         val movieYearTextView = findViewById<TextView>(R.id.tv_movie_year)
         movieYearTextView.text = getYear(movie.releaseDate)
 
-        val movieMinutesTextView = findViewById<TextView>(R.id.tv_movie_minutes)
-        movieMinutesTextView.text = "120min" // TODO Look up actual length.
+        movieMinutesTextView = findViewById<TextView>(R.id.tv_movie_minutes)
 
         val movieRatingTextView = findViewById<TextView>(R.id.tv_movie_rating)
         movieRatingTextView.text = "${movie.voteAverage}/10 (${movie.voteCount})"
@@ -40,6 +46,8 @@ class MovieDetailActivity : AppCompatActivity() {
         movieOverviewTextView.text = movie.overview
 
         // TODO Process trailers.
+
+        getMovieDetails(movie.id)
     }
 
     private fun getYear(dateString: String): String {
@@ -47,5 +55,25 @@ class MovieDetailActivity : AppCompatActivity() {
         val date = formatDate.parse(dateString)
         val formatYear = SimpleDateFormat("yyyy", Locale.US)
         return formatYear.format(date)
+    }
+
+    private fun getMovieDetails(movieId: Int) {
+        val movieService = MovieService.create()
+        val call = movieService.requestMovieDetails(movieId, BuildConfig.API_KEY_TMDB)
+        call.enqueue(object : Callback<MovieDetails> {
+            override fun onResponse(call: Call<MovieDetails>, response: retrofit2.Response<MovieDetails>?) {
+                if (response != null) {
+                    val runtime = response.body()?.runtime
+                    if (runtime != null) {
+                        movieMinutesTextView.text = "${runtime}min"
+                        movieMinutesTextView.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<MovieDetails>, t: Throwable) {
+                Log.e(TAG, t.toString())
+            }
+        })
     }
 }
