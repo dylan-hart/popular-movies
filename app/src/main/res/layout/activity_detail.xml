@@ -25,7 +25,7 @@
         <ImageView
             android:id="@+id/iv_movie_poster"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/poster_height"
             android:layout_marginTop="@dimen/large"
             android:contentDescription="@string/content_description_movie_poster"
             app:layout_constraintEnd_toStartOf="@id/tv_movie_year"

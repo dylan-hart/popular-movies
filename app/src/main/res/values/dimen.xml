@@ -9,4 +9,5 @@
     <dimen name="medium">16dp</dimen>
     <dimen name="medium_large">24dp</dimen>
     <dimen name="large">32dp</dimen>
+    <dimen name="poster_height">160dp</dimen>
 </resources>
