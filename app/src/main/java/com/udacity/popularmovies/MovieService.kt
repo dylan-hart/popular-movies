@@ -1,5 +1,6 @@
 package com.udacity.popularmovies
 
+import com.udacity.popularmovies.data.MovieDetails
 import com.udacity.popularmovies.data.Page
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -11,6 +12,9 @@ interface MovieService {
 
     @GET("popular")
     fun requestPopularMovies(@Query("api_key") apiKey: String) : Call<Page>
+
+    @GET("movie")
+    fun requestMovieDetails(@Query("api_key") apiKey: String) : Call<MovieDetails>
 
     companion object Factory {
         private const val URL_POPULAR_MOVIES = "http://api.themoviedb.org/3/movie/"
