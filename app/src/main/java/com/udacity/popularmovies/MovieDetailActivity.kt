@@ -53,7 +53,7 @@ class MovieDetailActivity : AppCompatActivity() {
 
         mOriginalOrientation = resources.configuration.orientation
 
-        // TODO Process trailers.
+        // TODO (Part II) Process trailers.
 
         getMovieDetails(movie.id)
     }

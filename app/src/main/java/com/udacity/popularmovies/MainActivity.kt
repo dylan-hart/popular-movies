@@ -6,7 +6,10 @@ import android.support.v4.app.SharedElementCallback
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import com.udacity.popularmovies.data.Page
 import retrofit2.Call
 import retrofit2.Callback
@@ -48,6 +51,7 @@ class MainActivity : AppCompatActivity() {
                         if (view != null) {
                             sharedElements.put(names?.get(0)!!, view)
                         }
+                        // TODO Scroll so that shared element is at the same vertical position.
                     }
                 }
             })
@@ -57,6 +61,19 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
         outState?.putInt(VIEW_POSITION, mViewPosition)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_sort_by_most_popular -> true
+            R.id.action_sort_by_highest_rated -> true
+            else -> false
+        }
     }
 
     private fun getPopularMovies() {
