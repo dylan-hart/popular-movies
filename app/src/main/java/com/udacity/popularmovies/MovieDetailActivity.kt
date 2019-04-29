@@ -34,6 +34,7 @@ class MovieDetailActivity : AppCompatActivity() {
         moviePosterImageView.transitionName = intent.getStringExtra(MainActivity.EXTRA_TRANSITION_NAME)
         Picasso.get()
             .load(MovieService.getPosterUrl(this, movie.posterPath))
+            .placeholder(R.drawable.movie_poster_placeholder)
             .networkPolicy(NetworkPolicy.OFFLINE)
             .into(moviePosterImageView)
 

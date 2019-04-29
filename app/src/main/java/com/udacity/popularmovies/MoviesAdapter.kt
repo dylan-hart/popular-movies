@@ -39,6 +39,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
         val posterPath = mMovies[position].posterPath
         Picasso.get()
             .load(MovieService.getPosterUrl(holder.posterImageView.context, posterPath))
+            .placeholder(R.drawable.movie_poster_placeholder)
             .into(holder.posterImageView)
         holder.posterImageView.transitionName = "movie_poster_$position"
         holder.posterImageView.setOnClickListener {

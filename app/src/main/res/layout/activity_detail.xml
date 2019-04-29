@@ -27,11 +27,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/large"
+            android:contentDescription="@string/content_description_movie_poster"
             app:layout_constraintEnd_toStartOf="@id/tv_movie_year"
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_movie_title"
-            android:contentDescription="@string/content_description_movie_poster" />
+            app:layout_constraintTop_toBottomOf="@id/tv_movie_title" />
 
         <TextView
             android:id="@+id/tv_movie_year"
