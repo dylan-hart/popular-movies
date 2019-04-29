@@ -69,7 +69,29 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
     }
 
     private fun sortMovies() {
-        // TODO Sort movies according to mSortingMethod.
+        when (mSortingMethod) {
+            Sort.MOST_POPULAR -> mMovies.sortWith(object : Comparator<Movie> {
+                override fun compare(a: Movie?, b: Movie?): Int {
+                    val diff = a?.popularity!! - b?.popularity!!
+                    return when {
+                        diff < 0f -> 1
+                        diff > 0f -> -1
+                        else -> 0
+                    }
+                }
+            })
+            Sort.HIGHEST_RATED -> mMovies.sortWith(object : Comparator<Movie> {
+                override fun compare(a: Movie?, b: Movie?): Int {
+                    val diff = a?.voteAverage!! - b?.voteAverage!!
+                    return when {
+                        diff < 0f -> 1
+                        diff > 0f -> -1
+                        else -> 0
+                    }
+                }
+            })
+        }
+        notifyDataSetChanged()
     }
 
     class ViewHolder(itemView: View, height: Int) : RecyclerView.ViewHolder(itemView) {

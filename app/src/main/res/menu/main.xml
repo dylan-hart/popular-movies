@@ -8,12 +8,16 @@
         android:title="@string/sort"
         android:icon="@drawable/ic_sort_white_24dp">
         <menu>
-            <item
-                android:id="@+id/action_sort_by_most_popular"
-                android:title="@string/sort_by_most_popular" />
-            <item
-                android:id="@+id/action_sort_by_highest_rated"
-                android:title="@string/sort_by_highest_rated" />
+            <group
+                android:checkableBehavior="single">
+                <item
+                    android:checked="true"
+                    android:id="@+id/action_sort_by_most_popular"
+                    android:title="@string/sort_by_most_popular" />
+                <item
+                    android:id="@+id/action_sort_by_highest_rated"
+                    android:title="@string/sort_by_highest_rated" />
+            </group>
         </menu>
     </item>
 </menu>
