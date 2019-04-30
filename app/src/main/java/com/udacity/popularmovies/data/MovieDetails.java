@@ -27,6 +27,21 @@ public class MovieDetails implements Parcelable {
         dest.writeInt(runtime);
     }
 
+    private MovieDetails(Parcel in) {
+        budget = in.readInt();
+        revenue = in.readInt();
+        runtime = in.readInt();
+    }
+
+    public static final Creator<MovieDetails> CREATOR = new Creator<MovieDetails>() {
+        public MovieDetails createFromParcel(Parcel source) {
+            return new MovieDetails(source);
+        }
+        public MovieDetails[] newArray(int size) {
+            return new MovieDetails[size];
+        }
+    };
+
     public int getBudget() {
         return budget;
     }
