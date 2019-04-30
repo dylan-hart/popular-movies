@@ -36,7 +36,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         ImageView moviePosterImageView = findViewById(R.id.iv_movie_poster);
         moviePosterImageView.setTransitionName(getIntent().getStringExtra(MainActivity.EXTRA_TRANSITION_NAME));
         Picasso.get()
-                .load(MovieService.getPosterUrl(this, movie.getPosterPath()))
+                .load(RetroFitUtils.getPosterUrl(this, movie.getPosterPath()))
                 .placeholder(R.drawable.movie_poster_placeholder)
                 .networkPolicy(NetworkPolicy.OFFLINE)
                 .into(moviePosterImageView);
@@ -77,7 +77,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     private void getMovieDetails(int movieId) {
-        MovieService movieService = MovieService.create();
+        MovieService movieService = RetroFitUtils.createMovieService();
         Call<MovieDetails> call = movieService.requestMovieDetails(movieId, BuildConfig.API_KEY_TMDB);
         call.enqueue(new Callback<MovieDetails>() {
             @Override

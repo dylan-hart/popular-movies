@@ -44,7 +44,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     public void onBindViewHolder(@NonNull MoviesAdapter.ViewHolder holder, int position) {
         String posterPath = mMovies.get(position).getPosterPath();
         Picasso.get()
-                .load(MovieService.getPosterUrl(holder.posterImageView.getContext(), posterPath))
+                .load(RetroFitUtils.getPosterUrl(holder.posterImageView.getContext(), posterPath))
                 .placeholder(R.drawable.movie_poster_placeholder)
                 .into(holder.posterImageView);
         holder.posterImageView.setTransitionName(String.format(Locale.US, "movie_poster_%d", position));
