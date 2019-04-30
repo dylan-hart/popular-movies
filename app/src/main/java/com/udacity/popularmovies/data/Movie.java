@@ -49,6 +49,57 @@ public class Movie implements Parcelable {
     @SerializedName("release_date")
     private String releaseDate;
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(voteCount);
+        dest.writeInt(id);
+        dest.writeInt(video ? 1 : 0);
+        dest.writeFloat(voteAverage);
+        dest.writeString(title);
+        dest.writeFloat(popularity);
+        dest.writeString(posterPath);
+        dest.writeString(originalLanguage);
+        dest.writeString(originalTitle);
+        dest.writeIntArray(genres);
+        dest.writeString(backdropPath);
+        dest.writeInt(adult ? 1 : 0);
+        dest.writeString(overview);
+        dest.writeString(releaseDate);
+    }
+
+    private Movie(Parcel in) {
+        voteCount = in.readInt();
+        id = in.readInt();
+        video = in.readInt() == 1;
+        voteAverage = in.readFloat();
+        title = in.readString();
+        popularity = in.readFloat();
+        posterPath = in.readString();
+        originalLanguage = in.readString();
+        originalTitle = in.readString();
+        genres = in.createIntArray();
+        in.readIntArray(genres);
+        backdropPath = in.readString();
+        adult = in.readInt() == 1;
+        overview = in.readString();
+        releaseDate = in.readString();
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        public Movie createFromParcel(Parcel source) {
+            return new Movie(source);
+        }
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
+
+
     public int getVoteCount() {
         return voteCount;
     }
@@ -159,28 +210,5 @@ public class Movie implements Parcelable {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(voteCount);
-        dest.writeInt(id);
-        dest.writeInt(video ? 1 : 0);
-        dest.writeFloat(voteAverage);
-        dest.writeString(title);
-        dest.writeFloat(popularity);
-        dest.writeString(posterPath);
-        dest.writeString(originalLanguage);
-        dest.writeString(originalTitle);
-        dest.writeIntArray(genres);
-        dest.writeString(backdropPath);
-        dest.writeInt(adult ? 1 : 0);
-        dest.writeString(overview);
-        dest.writeString(releaseDate);
     }
 }
