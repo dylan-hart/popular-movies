@@ -62,6 +62,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         });
     }
 
+    public void setMovieDate(ArrayList<Movie> movies) {
+        mMovies = movies;
+        notifyDataSetChanged();
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
             ImageView posterImageView;
         ViewHolder(@NonNull View itemView, int height) {
