@@ -50,12 +50,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ImageView poster = v.findViewById(R.id.iv_poster);
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)v.getContext(),
-                        v,
-                        v.getTransitionName());
+                        poster,
+                        poster.getTransitionName());
                 Intent intent = new Intent(v.getContext(), MovieDetailActivity.class);
                 intent.putExtra(Movie.EXTRA_MOVIE, mMovies[holder.getAdapterPosition()]);
-                intent.putExtra(MainActivity.EXTRA_TRANSITION_NAME, v.getTransitionName());
+                intent.putExtra(MainActivity.EXTRA_TRANSITION_NAME, poster.getTransitionName());
                 v.getContext().startActivity(intent, options.toBundle());
             }
         });
