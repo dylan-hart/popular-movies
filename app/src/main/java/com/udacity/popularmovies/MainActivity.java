@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             Parcelable savedLayout = savedInstanceState.getParcelable(SAVED_RECYCLER_LAYOUT);
             mRecyclerView.getLayoutManager().onRestoreInstanceState(savedLayout);
 
-            mMovieType = savedInstanceState.getParcelable(SAVED_MOVIE_TYPE);
+            mMovieType = (MovieType)savedInstanceState.getSerializable(SAVED_MOVIE_TYPE);
             mPopularMovies = (Movie[])savedInstanceState.getParcelableArray(SAVED_POPULAR_MOVIES);
             mTopRatedMovies = (Movie[])savedInstanceState.getParcelableArray(SAVED_TOP_RATED_MOVIES);
 
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(SAVED_SELECTED_MOVIE, mViewPosition);
-        outState.putParcelable(SAVED_MOVIE_TYPE, mMovieType);
+        outState.putSerializable(SAVED_MOVIE_TYPE, mMovieType);
         outState.putParcelableArray(SAVED_POPULAR_MOVIES, mPopularMovies);
         outState.putParcelableArray(SAVED_TOP_RATED_MOVIES, mTopRatedMovies);
         outState.putParcelable(SAVED_RECYCLER_LAYOUT, mRecyclerView.getLayoutManager().onSaveInstanceState());
