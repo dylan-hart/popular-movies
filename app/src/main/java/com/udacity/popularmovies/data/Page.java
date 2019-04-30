@@ -37,6 +37,15 @@ public class Page implements Parcelable {
         movies = in.createTypedArray(Movie.CREATOR);
     }
 
+    public static final Creator<Page> CREATOR = new Creator<Page>() {
+        public Page createFromParcel(Parcel source) {
+            return new Page(source);
+        }
+        public Page[] newArray(int size) {
+            return new Page[size];
+        }
+    };
+
     public int getPageNumber() {
         return pageNumber;
     }
