@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getName();
-    private final static String EXTRA_TRANSITION_NAME = "TRANSITION_NAME";
+    public final static String EXTRA_TRANSITION_NAME = "TRANSITION_NAME";
     private final static String SAVED_SELECTED_MOVIE = "SELECTED_MOVIE";
     private final static String SAVED_MOVIE_TYPE = "MOVIE_TYPE";
     private final static String SAVED_POPULAR_MOVIES = "POPULAR_MOVIES";
