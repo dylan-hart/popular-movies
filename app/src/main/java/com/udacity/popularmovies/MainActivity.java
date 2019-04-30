@@ -141,8 +141,11 @@ public class MainActivity extends AppCompatActivity {
                 call.enqueue(new Callback<Page>() {
                     @Override
                     public void onResponse(Call<Page> call, Response<Page> response) {
-                        mPopularMovies = response.body().getMovies();
-                        mMoviesAdapter.setMovieData(mPopularMovies);
+                        Page page = response.body();
+                        if (page != null) {
+                            mPopularMovies = page.getMovies();
+                            mMoviesAdapter.setMovieData(mPopularMovies);
+                        }
                     }
 
                     @Override
@@ -165,8 +168,11 @@ public class MainActivity extends AppCompatActivity {
                 call.enqueue(new Callback<Page>() {
                     @Override
                     public void onResponse(Call<Page> call, Response<Page> response) {
-                        mTopRatedMovies = response.body().getMovies();
-                        mMoviesAdapter.setMovieData(mTopRatedMovies);
+                        Page page = response.body();
+                        if (page != null) {
+                            mTopRatedMovies = page.getMovies();
+                            mMoviesAdapter.setMovieData(mTopRatedMovies);
+                        }
                     }
 
                     @Override

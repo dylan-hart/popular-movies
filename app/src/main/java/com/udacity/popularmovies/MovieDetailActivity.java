@@ -79,9 +79,11 @@ public class MovieDetailActivity extends AppCompatActivity {
         call.enqueue(new Callback<MovieDetails>() {
             @Override
             public void onResponse(Call<MovieDetails> call, Response<MovieDetails> response) {
-                int runtime = response.body().getRuntime();
-                mMovieMinutesTextView.setText(String.format(Locale.US, "%dmin", runtime));
-                mMovieMinutesTextView.setVisibility(View.VISIBLE);
+                MovieDetails details = response.body();
+                if (details != null) {
+                    mMovieMinutesTextView.setText(String.format(Locale.US, "%dmin", details.getRuntime()));
+                    mMovieMinutesTextView.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
