@@ -56,11 +56,11 @@ public class Page implements Parcelable {
         this.totalPages = totalPages;
     }
 
-    public ArrayList<Movie> getMovies() {
+    public Movie[] getMovies() {
         return movies;
     }
 
-    public void setMovies(ArrayList<Movie> movies) {
+    public void setMovies(Movie[] movies) {
         this.movies = movies;
     }
 }

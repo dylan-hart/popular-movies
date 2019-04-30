@@ -17,7 +17,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -75,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
             mRecyclerView.getLayoutManager().onRestoreInstanceState(savedLayout);
 
             mMovieType = savedInstanceState.getParcelable(SAVED_MOVIE_TYPE);
-            mPopularMovies = savedInstanceState.getParcelableArrayList(SAVED_POPULAR_MOVIES);
-            mTopRatedMovies = savedInstanceState.getParcelableArrayList(SAVED_TOP_RATED_MOVIES);
+            mPopularMovies = (Movie[])savedInstanceState.getParcelableArray(SAVED_POPULAR_MOVIES);
+            mTopRatedMovies = (Movie[])savedInstanceState.getParcelableArray(SAVED_TOP_RATED_MOVIES);
 
             if (mMovieType == MovieType.MOST_POPULAR) mMoviesAdapter.setMovieData(mPopularMovies);
             else if (mMovieType == MovieType.TOP_RATED) mMoviesAdapter.setMovieData(mTopRatedMovies);
@@ -88,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putInt(SAVED_SELECTED_MOVIE, mViewPosition);
         outState.putParcelable(SAVED_MOVIE_TYPE, mMovieType);
-        outState.putParcelableArrayList(SAVED_POPULAR_MOVIES, mPopularMovies);
-        outState.putParcelableArrayList(SAVED_TOP_RATED_MOVIES, mTopRatedMovies);
+        outState.putParcelableArray(SAVED_POPULAR_MOVIES, mPopularMovies);
+        outState.putParcelableArray(SAVED_TOP_RATED_MOVIES, mTopRatedMovies);
         outState.putParcelable(SAVED_RECYCLER_LAYOUT, mRecyclerView.getLayoutManager().onSaveInstanceState());
     }
 
@@ -113,12 +112,10 @@ public class MainActivity extends AppCompatActivity {
                 item.setChecked(true);
                 showPopularMovies();
                 return true;
-                break;
             case R.id.action_sort_by_highest_rated:
                 item.setChecked(true);
                 showTopRatedMovies();
                 return true;
-                break;
             default:
                 return false;
         }
