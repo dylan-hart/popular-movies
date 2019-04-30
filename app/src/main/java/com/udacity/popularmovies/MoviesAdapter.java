@@ -13,14 +13,13 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 import com.udacity.popularmovies.data.Movie;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
 
     private final static String TAG = MoviesAdapter.class.getName();
 
-    private ArrayList<Movie> mMovies = new ArrayList<>();
+    private Movie[] mMovies = {};
 
     @NonNull
     @Override
@@ -37,12 +36,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return mMovies.size();
+        return mMovies.length;
     }
 
     @Override
     public void onBindViewHolder(@NonNull MoviesAdapter.ViewHolder holder, int position) {
-        String posterPath = mMovies.get(position).getPosterPath();
+        String posterPath = mMovies[position].getPosterPath();
         Picasso.get()
                 .load(RetroFitUtils.getPosterUrl(holder.posterImageView.getContext(), posterPath))
                 .placeholder(R.drawable.movie_poster_placeholder)
@@ -55,14 +54,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
                         v,
                         v.getTransitionName());
                 Intent intent = new Intent(v.getContext(), MovieDetailActivity.class);
-                intent.putExtra(Movie.EXTRA_MOVIE, mMovies.get(position));
+                intent.putExtra(Movie.EXTRA_MOVIE, mMovies[position]);
                 intent.putExtra(MainActivity.EXTRA_TRANSITION_NAME, v.getTransitionName());
                 v.getContext().startActivity(intent, options.toBundle());
             }
         });
     }
 
-    public void setMovieData(ArrayList<Movie> movies) {
+    public void setMovieData(Movie[] movies) {
         mMovies = movies;
         notifyDataSetChanged();
     }
