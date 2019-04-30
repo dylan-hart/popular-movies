@@ -83,7 +83,6 @@ public class Movie implements Parcelable {
         originalLanguage = in.readString();
         originalTitle = in.readString();
         genres = in.createIntArray();
-        in.readIntArray(genres);
         backdropPath = in.readString();
         adult = in.readInt() == 1;
         overview = in.readString();

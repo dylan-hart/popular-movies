@@ -4,8 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-
 public class Page implements Parcelable {
     @SerializedName("page")
     private int pageNumber;
@@ -29,7 +27,14 @@ public class Page implements Parcelable {
         dest.writeInt(pageNumber);
         dest.writeInt(totalResults);
         dest.writeInt(totalPages);
-        dest.writeParcelableArray(movies, 0);
+        dest.writeTypedArray(movies, 0);
+    }
+
+    private Page(Parcel in) {
+        pageNumber = in.readInt();
+        totalResults = in.readInt();
+        totalPages = in.readInt();
+        movies = in.createTypedArray(Movie.CREATOR);
     }
 
     public int getPageNumber() {
