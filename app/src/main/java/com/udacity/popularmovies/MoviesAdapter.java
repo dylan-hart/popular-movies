@@ -62,7 +62,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         });
     }
 
-    public void setMovieDate(ArrayList<Movie> movies) {
+    public void setMovieData(ArrayList<Movie> movies) {
         mMovies = movies;
         notifyDataSetChanged();
     }
