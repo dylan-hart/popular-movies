@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 mMoviesAdapter.setMovieData(mPopularMovies);
             } else {
                 MovieService movieService = RetroFitUtils.createMovieService();
-                Call<Page> call = movieService.requestPopularMovies(BuildConfig.API_KEY_TMDB);
+                Call<Page> call = movieService.requesetTopRatedMovies(BuildConfig.API_KEY_TMDB);
                 call.enqueue(new Callback<Page>() {
                     @Override
                     public void onResponse(Call<Page> call, Response<Page> response) {
