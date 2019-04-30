@@ -1,4 +1,4 @@
-package com.udacity.popularmovies.data;
+package com.udacity.popularmovies;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,10 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-import com.udacity.popularmovies.BuildConfig;
-import com.udacity.popularmovies.MainActivity;
-import com.udacity.popularmovies.MovieService;
-import com.udacity.popularmovies.R;
+import com.udacity.popularmovies.data.Movie;
+import com.udacity.popularmovies.data.MovieDetails;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
