@@ -1,6 +1,7 @@
 package com.udacity.popularmovies;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -78,7 +79,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         Call<MovieDetails> call = movieService.requestMovieDetails(movieId, BuildConfig.API_KEY_TMDB);
         call.enqueue(new Callback<MovieDetails>() {
             @Override
-            public void onResponse(Call<MovieDetails> call, Response<MovieDetails> response) {
+            public void onResponse(@NonNull Call<MovieDetails> call, @NonNull Response<MovieDetails> response) {
                 MovieDetails details = response.body();
                 if (details != null) {
                     mMovieMinutesTextView.setText(String.format(Locale.US, "%dmin", details.getRuntime()));
@@ -87,7 +88,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<MovieDetails> call, Throwable t) {
+            public void onFailure(@NonNull Call<MovieDetails> call, @NonNull Throwable t) {
                 Log.e(TAG, t.toString());
             }
         });

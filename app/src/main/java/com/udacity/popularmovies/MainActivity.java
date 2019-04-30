@@ -3,6 +3,7 @@ package com.udacity.popularmovies;
 import android.app.SharedElementCallback;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -140,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                 Call<Page> call = movieService.requestPopularMovies(BuildConfig.API_KEY_TMDB);
                 call.enqueue(new Callback<Page>() {
                     @Override
-                    public void onResponse(Call<Page> call, Response<Page> response) {
+                    public void onResponse(@NonNull Call<Page> call, @NonNull Response<Page> response) {
                         Page page = response.body();
                         if (page != null) {
                             mPopularMovies = page.getMovies();
@@ -149,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<Page> call, Throwable t) {
+                    public void onFailure(@NonNull Call<Page> call, @NonNull Throwable t) {
                         Log.e(TAG, t.toString());
                     }
                 });
@@ -167,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                 Call<Page> call = movieService.requesetTopRatedMovies(BuildConfig.API_KEY_TMDB);
                 call.enqueue(new Callback<Page>() {
                     @Override
-                    public void onResponse(Call<Page> call, Response<Page> response) {
+                    public void onResponse(@NonNull Call<Page> call, @NonNull Response<Page> response) {
                         Page page = response.body();
                         if (page != null) {
                             mTopRatedMovies = page.getMovies();
@@ -176,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<Page> call, Throwable t) {
+                    public void onFailure(@NonNull Call<Page> call, @NonNull Throwable t) {
                         Log.e(TAG, t.toString());
                     }
                 });
