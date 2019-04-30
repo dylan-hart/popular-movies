@@ -50,7 +50,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         mMovieMinutesTextView = findViewById(R.id.tv_movie_minutes);
 
         TextView movieRatingTextView = findViewById(R.id.tv_movie_rating);
-        movieRatingTextView.setText(String.format(Locale.US, "%f/10 (%d)",
+        movieRatingTextView.setText(String.format(Locale.US, "%.1f/10 (%d)",
                 movie.getVoteAverage(),
                 movie.getVoteCount()));
 
