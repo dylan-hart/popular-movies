@@ -24,7 +24,6 @@ public class MovieDetailActivity extends AppCompatActivity {
     private static final String TAG = MovieDetailActivity.class.getName();
 
     private TextView mMovieMinutesTextView;
-    private int mOriginalOrientation = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,8 +55,6 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         TextView movieOverviewTextView = findViewById(R.id.tv_movie_overview);
         movieOverviewTextView.setText(movie.getOverview());
-
-        mOriginalOrientation = getResources().getConfiguration().orientation;
 
         // TODO (Part II) Process trailers.
 
