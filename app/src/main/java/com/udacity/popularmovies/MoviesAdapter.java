@@ -68,7 +68,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-            ImageView posterImageView;
+            final ImageView posterImageView;
         ViewHolder(@NonNull View itemView, int height) {
             super(itemView);
             posterImageView = itemView.findViewById(R.id.iv_poster);

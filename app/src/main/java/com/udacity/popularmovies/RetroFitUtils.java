@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.util.Locale;
 
-public class RetroFitUtils {
+class RetroFitUtils {
     private static final String URL_POPULAR_MOVIES = "http://api.themoviedb.org/3/movie/";
 
     public static MovieService createMovieService() {

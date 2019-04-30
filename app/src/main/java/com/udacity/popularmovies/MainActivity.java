@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private RecyclerView mRecyclerView;
-    private MoviesAdapter mMoviesAdapter = new MoviesAdapter();
+    private final MoviesAdapter mMoviesAdapter = new MoviesAdapter();
     private int mViewPosition = 0;
     private Movie[] mPopularMovies;
     private Movie[] mTopRatedMovies;
