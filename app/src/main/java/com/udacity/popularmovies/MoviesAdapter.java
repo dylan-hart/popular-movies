@@ -40,21 +40,21 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MoviesAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MoviesAdapter.ViewHolder holder, int position) {
         String posterPath = mMovies[position].getPosterPath();
         Picasso.get()
                 .load(RetroFitUtils.getPosterUrl(holder.posterImageView.getContext(), posterPath))
                 .placeholder(R.drawable.movie_poster_placeholder)
                 .into(holder.posterImageView);
         holder.posterImageView.setTransitionName(String.format(Locale.US, "movie_poster_%d", position));
-        holder.posterImageView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)v.getContext(),
                         v,
                         v.getTransitionName());
                 Intent intent = new Intent(v.getContext(), MovieDetailActivity.class);
-                intent.putExtra(Movie.EXTRA_MOVIE, mMovies[position]);
+                intent.putExtra(Movie.EXTRA_MOVIE, mMovies[holder.getAdapterPosition()]);
                 intent.putExtra(MainActivity.EXTRA_TRANSITION_NAME, v.getTransitionName());
                 v.getContext().startActivity(intent, options.toBundle());
             }
