@@ -62,16 +62,22 @@ public class MainActivity extends AppCompatActivity {
                 public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
                     super.onMapSharedElements(names, sharedElements);
                     if (sharedElements.isEmpty()) {
-                        View view = mRecyclerView.getLayoutManager().findViewByPosition(mViewPosition);
-                        if (view != null) {
-                            sharedElements.put(names.get(0), view);
+                        RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
+                        if (layoutManager != null) {
+                            View view = layoutManager.findViewByPosition(mViewPosition);
+                            if (view != null) {
+                                sharedElements.put(names.get(0), view);
+                            }
                         }
                     }
                 }
             });
 
             Parcelable savedLayout = savedInstanceState.getParcelable(SAVED_RECYCLER_LAYOUT);
-            mRecyclerView.getLayoutManager().onRestoreInstanceState(savedLayout);
+            RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
+            if (layoutManager != null) {
+                layoutManager.onRestoreInstanceState(savedLayout);
+            }
 
             mMovieType = (MovieType)savedInstanceState.getSerializable(SAVED_MOVIE_TYPE);
             mPopularMovies = (Movie[])savedInstanceState.getParcelableArray(SAVED_POPULAR_MOVIES);
@@ -89,7 +95,10 @@ public class MainActivity extends AppCompatActivity {
         outState.putSerializable(SAVED_MOVIE_TYPE, mMovieType);
         outState.putParcelableArray(SAVED_POPULAR_MOVIES, mPopularMovies);
         outState.putParcelableArray(SAVED_TOP_RATED_MOVIES, mTopRatedMovies);
-        outState.putParcelable(SAVED_RECYCLER_LAYOUT, mRecyclerView.getLayoutManager().onSaveInstanceState());
+        RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
+        if (layoutManager != null) {
+            outState.putParcelable(SAVED_RECYCLER_LAYOUT, layoutManager.onSaveInstanceState());
+        }
     }
 
     @Override
