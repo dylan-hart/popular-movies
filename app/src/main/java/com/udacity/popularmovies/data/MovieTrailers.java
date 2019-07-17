@@ -6,29 +6,19 @@ import com.google.gson.annotations.SerializedName;
 
 public class MovieTrailers implements Parcelable {
 
-    @SerializedName("key")
-    private String key;
-
-    @SerializedName("site")
-    private String site;
-
-    @SerializedName("type")
-    private String type;
+    @SerializedName("results")
+    private Trailer[] trailers;
 
     @Override
     public int describeContents() { return 0; }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(key);
-        dest.writeString(site);
-        dest.writeString(type);
+        dest.writeTypedArray(trailers, 0);
     }
 
     private MovieTrailers(Parcel in) {
-        key = in.readString();
-        site = in.readString();
-        type = in.readString();
+        trailers = in.createTypedArray(Trailer.CREATOR);
     }
 
     public static final Creator<MovieTrailers> CREATOR = new Creator<MovieTrailers>() {
@@ -43,15 +33,7 @@ public class MovieTrailers implements Parcelable {
         }
     };
 
-    public String getKey() {
-        return key;
-    }
-
-    public String getSite() {
-        return site;
-    }
-
-    public String getType() {
-        return type;
+    public Trailer[] getTrailers() {
+        return trailers;
     }
 }
