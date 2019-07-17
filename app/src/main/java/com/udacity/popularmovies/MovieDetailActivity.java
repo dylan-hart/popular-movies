@@ -12,6 +12,7 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.udacity.popularmovies.data.Movie;
 import com.udacity.popularmovies.data.MovieDetails;
+import com.udacity.popularmovies.data.MovieReviews;
 import com.udacity.popularmovies.data.MovieTrailers;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,11 +59,11 @@ public class MovieDetailActivity extends AppCompatActivity {
         TextView movieOverviewTextView = findViewById(R.id.tv_movie_overview);
         movieOverviewTextView.setText(movie.getOverview());
 
-        // TODO (Part II) Process trailers.
-
         getMovieDetails(movie.getId());
 
         getTrailers(movie.getId());
+
+        getReviews(movie.getId());
     }
 
     private String getYear(String dateString) {
@@ -111,6 +112,25 @@ public class MovieDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<MovieTrailers> call, Throwable t) {
+                Log.e(TAG, t.toString());
+            }
+        });
+    }
+
+    private void getReviews(int movieId) {
+        MovieService movieService = RetroFitUtils.createMovieService();
+        Call<MovieReviews> call = movieService.requestMovieReviews(movieId, BuildConfig.API_KEY_TMDB);
+        call.enqueue(new Callback<MovieReviews>() {
+            @Override
+            public void onResponse(Call<MovieReviews> call, Response<MovieReviews> response) {
+                MovieReviews reviews = response.body();
+                if (reviews != null) {
+                    // TODO
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MovieReviews> call, Throwable t) {
                 Log.e(TAG, t.toString());
             }
         });
