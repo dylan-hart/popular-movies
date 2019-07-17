@@ -6,6 +6,7 @@
     <string name="sort">Sort by</string>
     <string name="sort_by_most_popular">Most popular</string>
     <string name="sort_by_highest_rated">Highest rated</string>
+    <string name="sort_by_favorite">Favorites</string>
     <string name="tmdb_thumbnail_resolution">w185</string>
     <string name="content_description_movie_poster">Movie Poster</string>
 </resources>

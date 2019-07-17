@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
     enum MovieType {
         UNINITIALIZED,
         MOST_POPULAR,
-        TOP_RATED
+        TOP_RATED,
+        FAVORITE
     }
 
     private RecyclerView mRecyclerView;
@@ -110,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
             menu.findItem(R.id.action_sort_by_most_popular).setChecked(true);
         } else if (mMovieType == MovieType.TOP_RATED) {
             menu.findItem(R.id.action_sort_by_highest_rated).setChecked(true);
+        } else if (mMovieType == MovieType.FAVORITE) {
+            menu.findItem(R.id.action_sort_by_favorite).setChecked(true);
         }
 
         return true;
@@ -125,6 +128,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_sort_by_highest_rated:
                 item.setChecked(true);
                 showTopRatedMovies();
+                return true;
+            case R.id.action_sort_by_favorite:
+                item.setChecked(true);
+                showFavorites();
                 return true;
             default:
                 return false;
@@ -182,6 +189,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
+        }
+    }
+
+    private void showFavorites() {
+        if (mMovieType != MovieType.FAVORITE) {
+            mMovieType = MovieType.FAVORITE;
+            // TODO
         }
     }
 }
