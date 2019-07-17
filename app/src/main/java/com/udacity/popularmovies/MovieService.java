@@ -1,6 +1,7 @@
 package com.udacity.popularmovies;
 
 import com.udacity.popularmovies.data.MovieDetails;
+import com.udacity.popularmovies.data.MovieTrailers;
 import com.udacity.popularmovies.data.Page;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -18,4 +19,6 @@ interface MovieService {
     @GET("{id}")
     Call<MovieDetails> requestMovieDetails(@Path("id")int id, @Query("api_key")String apiKey);
 
+    @GET("{id}")
+    Call<MovieTrailers> requestMovieTrailers(@Path("id")int id, @Query("api_key")String apiKey);
 }

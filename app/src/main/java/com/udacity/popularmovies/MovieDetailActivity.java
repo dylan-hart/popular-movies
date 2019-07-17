@@ -60,6 +60,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         // TODO (Part II) Process trailers.
 
         getMovieDetails(movie.getId());
+
+        getTrailers(movie.getId());
     }
 
     private String getYear(String dateString) {
@@ -92,5 +94,9 @@ public class MovieDetailActivity extends AppCompatActivity {
                 Log.e(TAG, t.toString());
             }
         });
+    }
+
+    private void getTrailers(int movieId) {
+
     }
 }
