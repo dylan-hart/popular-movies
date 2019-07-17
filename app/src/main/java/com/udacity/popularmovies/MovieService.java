@@ -20,9 +20,9 @@ interface MovieService {
     @GET("{id}")
     Call<MovieDetails> requestMovieDetails(@Path("id")int id, @Query("api_key")String apiKey);
 
-    @GET("{id}")
+    @GET("{id}/videos")
     Call<MovieTrailers> requestMovieTrailers(@Path("id")int id, @Query("api_key")String apiKey);
 
-    @GET("{id}")
+    @GET("{id}/reviews")
     Call<MovieReviews> requestMovieReviews(@Path("id")int id, @Query("api_key")String apiKey);
 }
