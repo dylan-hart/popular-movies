@@ -12,6 +12,7 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.udacity.popularmovies.data.Movie;
 import com.udacity.popularmovies.data.MovieDetails;
+import com.udacity.popularmovies.data.MovieTrailers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -97,6 +98,21 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     private void getTrailers(int movieId) {
+        MovieService movieService = RetroFitUtils.createMovieService();
+        Call<MovieTrailers> call = movieService.requestMovieTrailers(movieId, BuildConfig.API_KEY_TMDB);
+        call.enqueue(new Callback<MovieTrailers>() {
+            @Override
+            public void onResponse(Call<MovieTrailers> call, Response<MovieTrailers> response) {
+                MovieTrailers trailers = response.body();
+                if (trailers != null) {
+                    // TODO
+                }
+            }
 
+            @Override
+            public void onFailure(Call<MovieTrailers> call, Throwable t) {
+                Log.e(TAG, t.toString());
+            }
+        });
     }
 }
