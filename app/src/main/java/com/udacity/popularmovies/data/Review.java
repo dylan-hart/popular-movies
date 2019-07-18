@@ -9,8 +9,8 @@ public class Review implements Parcelable {
     @SerializedName("author")
     private String author;
 
-    @SerializedName("content")
-    private String content;
+//    @SerializedName("content")
+//    private String content;
 
     @SerializedName("url")
     private String url;
@@ -23,13 +23,13 @@ public class Review implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(author);
-        dest.writeString(content);
+//        dest.writeString(content);
         dest.writeString(url);
     }
 
     private Review(Parcel in) {
         author = in.readString();
-        content = in.readString();
+//        content = in.readString();
         url = in.readString();
     }
 
@@ -49,9 +49,9 @@ public class Review implements Parcelable {
         return author;
     }
 
-    public String getContent() {
-        return content;
-    }
+//    public String getContent() {
+//        return content;
+//    }
 
     public String getUrl() {
         return url;

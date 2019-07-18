@@ -271,7 +271,8 @@ public class MovieDetailActivity extends AppCompatActivity {
                             linearLayout.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    // TODO
+                                    Uri uri = Uri.parse(review.getUrl());
+                                    startActivity(new Intent(Intent.ACTION_VIEW, uri));
                                 }
                             });
                             TextView labelTextView = new TextView(getBaseContext());
