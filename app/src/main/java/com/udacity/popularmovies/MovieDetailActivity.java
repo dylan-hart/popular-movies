@@ -10,13 +10,15 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.udacity.popularmovies.data.*;
+import com.udacity.popularmovies.database.AppDatabase;
+import com.udacity.popularmovies.database.MovieDao;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,6 +34,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private Movie mMovie;
     private TextView mMovieMinutesTextView;
+    private Button mMovieFavoriteButton;
     private LinearLayout mTrailersLinearLayout;
     private LinearLayout mReviewsLinearLayout;
 
@@ -42,10 +45,20 @@ public class MovieDetailActivity extends AppCompatActivity {
     private LinearLayout.LayoutParams mReviewLabelTextViewLayoutParams;
     private LinearLayout.LayoutParams mReviewAuthorTextViewLayoutParams;
 
+    private AppDatabase mAppDatabase;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        /* Get a reference to the database and get the movie
+         * associated with this MovieDetailActivity.
+         */
+
+        mAppDatabase = AppDatabase.getInstance(getApplicationContext());
+        mMovie = getIntent().getParcelableExtra(Movie.EXTRA_MOVIE);
+        mMovie = mAppDatabase.movieDao().load(mMovie.getId());
 
         /* Convert dp to pixels.
          */
@@ -93,10 +106,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                 1
         );
 
-        // Get the movie associated with this MovieDetailActivity.
-
-        mMovie = getIntent().getParcelableExtra(Movie.EXTRA_MOVIE);
-
         // Load the movie's poster.
 
         ImageView moviePosterImageView = findViewById(R.id.iv_movie_poster);
@@ -131,8 +140,14 @@ public class MovieDetailActivity extends AppCompatActivity {
                 mMovie.getVoteAverage(),
                 mMovie.getVoteCount()));
 
-        // Listen for click events on the favorite button.
+        /* Get a reference to the favorite button, update its state,
+         * and listen for clicks.
+         */
 
+        mMovieFavoriteButton = findViewById(R.id.btn_mark_favorite);
+        if (mMovie.getIsFavorite()) {
+            mMovieFavoriteButton.setBackground(getDrawable(R.drawable.ic_star_black_24dp));
+        }
         findViewById(R.id.btn_mark_favorite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -305,6 +320,13 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     private void toggleFavorite() {
-        // TODO
+        mMovie.setIsFavorite(!mMovie.getIsFavorite());
+        if (mMovie.getIsFavorite()) {
+            mMovieFavoriteButton.setBackground(getDrawable(R.drawable.ic_star_black_24dp));
+            mAppDatabase.movieDao().update(mMovie);
+        } else {
+            mMovieFavoriteButton.setBackground(getDrawable(R.drawable.ic_star_border_black_24dp));
+            mAppDatabase.movieDao().update(mMovie);
+        }
     }
 }

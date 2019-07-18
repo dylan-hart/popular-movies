@@ -1,16 +1,19 @@
 package com.udacity.popularmovies.data;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
+@Entity
 public class Movie implements Parcelable {
     public static final String EXTRA_MOVIE = "EXTRA_MOVIE";
 
     @SerializedName("vote_count")
     private int voteCount;
 
-    @SerializedName("id")
+    @SerializedName("id") @PrimaryKey
     private int id;
 
     @SerializedName("video")
@@ -34,8 +37,8 @@ public class Movie implements Parcelable {
     @SerializedName("original_title")
     private String originalTitle;
 
-    @SerializedName("genre_ids")
-    private int[] genres;
+//    @SerializedName("genre_ids")
+//    private int[] genres;
 
     @SerializedName("backdrop_path")
     private String backdropPath;
@@ -48,6 +51,8 @@ public class Movie implements Parcelable {
 
     @SerializedName("release_date")
     private String releaseDate;
+
+    private boolean isFavorite = false;
 
     @Override
     public int describeContents() {
@@ -65,12 +70,14 @@ public class Movie implements Parcelable {
         dest.writeString(posterPath);
         dest.writeString(originalLanguage);
         dest.writeString(originalTitle);
-        dest.writeIntArray(genres);
+//        dest.writeIntArray(genres);
         dest.writeString(backdropPath);
         dest.writeInt(adult ? 1 : 0);
         dest.writeString(overview);
         dest.writeString(releaseDate);
     }
+
+    public Movie() {}
 
     private Movie(Parcel in) {
         voteCount = in.readInt();
@@ -82,7 +89,7 @@ public class Movie implements Parcelable {
         posterPath = in.readString();
         originalLanguage = in.readString();
         originalTitle = in.readString();
-        genres = in.createIntArray();
+//        genres = in.createIntArray();
         backdropPath = in.readString();
         adult = in.readInt() == 1;
         overview = in.readString();
@@ -171,13 +178,13 @@ public class Movie implements Parcelable {
         this.originalTitle = originalTitle;
     }
 
-    public int[] getGenres() {
-        return genres;
-    }
+//    public int[] getGenres() {
+//        return genres;
+//    }
 
-    public void setGenres(int[] genres) {
-        this.genres = genres;
-    }
+//    public void setGenres(int[] genres) {
+//        this.genres = genres;
+//    }
 
     public String getBackdropPath() {
         return backdropPath;
@@ -209,5 +216,13 @@ public class Movie implements Parcelable {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public boolean getIsFavorite() {
+        return isFavorite;
+    }
+
+    public void setIsFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
     }
 }

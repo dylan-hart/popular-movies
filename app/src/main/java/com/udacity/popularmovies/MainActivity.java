@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import com.udacity.popularmovies.data.Movie;
 import com.udacity.popularmovies.data.Page;
+import com.udacity.popularmovies.database.AppDatabase;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,11 +44,14 @@ public class MainActivity extends AppCompatActivity {
     private Movie[] mPopularMovies;
     private Movie[] mTopRatedMovies;
     private MovieType mMovieType = MovieType.UNINITIALIZED;
+    private AppDatabase mAppDatabase;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mAppDatabase = AppDatabase.getInstance(getApplicationContext());
 
         mRecyclerView = findViewById(R.id.rv_posters);
         mRecyclerView.setHasFixedSize(true);
@@ -152,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
                         Page page = response.body();
                         if (page != null) {
                             mPopularMovies = page.getMovies();
+                            mAppDatabase.movieDao().insert(mPopularMovies);
                             mMoviesAdapter.setMovieData(mPopularMovies);
                         }
                     }
