@@ -69,16 +69,10 @@
 
         <Button
             android:id="@+id/btn_mark_favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:background="@color/colorPrimaryButton"
-            android:paddingStart="@dimen/medium"
-            android:paddingEnd="@dimen/medium"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/ic_star_border_black_24dp"
             android:layout_marginTop="@dimen/small"
-            android:text="@string/button_label_mark_favorite"
-            android:textAllCaps="true"
-            android:textColor="@color/colorGrey"
-            android:textSize="@dimen/text_tiny"
             app:layout_constraintTop_toBottomOf="@id/tv_movie_rating"
             app:layout_constraintStart_toEndOf="@id/iv_movie_poster" />
 
