@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
         if (mMovieType != MovieType.TOP_RATED) {
             mMovieType = MovieType.TOP_RATED;
             if (mTopRatedMovies != null) {
-                mMoviesAdapter.setMovieData(mPopularMovies);
+                mMoviesAdapter.setMovieData(mTopRatedMovies);
             } else {
                 MovieService movieService = RetroFitUtils.createMovieService();
                 Call<Page> call = movieService.requesetTopRatedMovies(BuildConfig.API_KEY_TMDB);
@@ -196,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
         if (mMovieType != MovieType.FAVORITE) {
             mMovieType = MovieType.FAVORITE;
             // TODO
+            mMoviesAdapter.setMovieData(new Movie[] {});
         }
     }
 }
