@@ -1,5 +1,5 @@
 # Popular Movies
-This is an Android application written in Kotlin that displays popular movies from a free database API. I've written it as an exercise in learning Kotlin.
+This is an Android application written in Java that displays popular movies from a free database API. I've written it as part of the Udacity Android Developer Nanodegree program.
 
 #### Adding an API key
 To build this application for yourself, you must provide your own API key for making HTTP requests from [The Movie DB](https://www.themoviedb.org/), as this repo does not provide one. The steps below explain how you can do this:

@@ -2,10 +2,14 @@
 <resources>
     <string name="app_name">Popular Movies</string>
     <string name="movie_detail_activity_label">Movie Detail</string>
-    <string name="button_label_mark_favorite">Mark as\nfavorite</string>
+    <string name="movie_detail_trailers_header">Trailers:</string>
+    <string name="movie_detail_trailer_label" formatted="false">Trailer %d</string>
+    <string name="movie_detail_reviews_header">Reviews:</string>
+    <string name="movie_detail_review_label" formatted="false">Review %d</string>
     <string name="sort">Sort by</string>
     <string name="sort_by_most_popular">Most popular</string>
     <string name="sort_by_highest_rated">Highest rated</string>
+    <string name="sort_by_favorite">Favorites</string>
     <string name="tmdb_thumbnail_resolution">w185</string>
     <string name="content_description_movie_poster">Movie Poster</string>
 </resources>
