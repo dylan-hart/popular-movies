@@ -46,7 +46,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
                 .load(RetroFitUtils.getPosterUrl(holder.posterImageView.getContext(), posterPath))
                 .placeholder(R.drawable.movie_poster_placeholder)
                 .into(holder.posterImageView);
-        holder.posterImageView.setTransitionName(String.format(Locale.US, "movie_poster_%d", position));
+        holder.posterImageView.setTransitionName("poster");
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,13 +56,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
                         poster.getTransitionName());
                 Intent intent = new Intent(v.getContext(), MovieDetailActivity.class);
                 intent.putExtra(Movie.EXTRA_MOVIE, mMovies[holder.getAdapterPosition()]);
-                intent.putExtra(MainActivity.EXTRA_TRANSITION_NAME, poster.getTransitionName());
                 v.getContext().startActivity(intent, options.toBundle());
             }
         });
     }
 
-    public void setMovieData(Movie[] movies) {
+    void setMovieData(Movie[] movies) {
         mMovies = movies;
         notifyDataSetChanged();
     }

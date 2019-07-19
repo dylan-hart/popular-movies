@@ -1,5 +1,8 @@
 package com.udacity.popularmovies;
 
+import android.app.SharedElementCallback;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,7 +30,11 @@ import retrofit2.internal.EverythingIsNonNull;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class MovieDetailActivity extends AppCompatActivity {
     private static final String TAG = MovieDetailActivity.class.getName();
@@ -58,7 +65,19 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         mAppDatabase = AppDatabase.getInstance(getApplicationContext());
         mMovie = getIntent().getParcelableExtra(Movie.EXTRA_MOVIE);
-        mMovie = mAppDatabase.movieDao().load(mMovie.getId());
+        LiveData<Movie> movie = mAppDatabase.movieDao().load(mMovie.getId());
+        movie.observe(this, new Observer<Movie>() {
+            @Override
+            public void onChanged(@Nullable Movie movie) {
+                Log.d(TAG, "Receiving database update from LiveData.");
+                if (movie != null) {
+                    mMovie = movie;
+                    if (mMovie.getIsFavorite()) {
+                        mMovieFavoriteButton.setBackground(getDrawable(R.drawable.ic_star_black_24dp));
+                    }
+                }
+            }
+        });
 
         /* Convert dp to pixels.
          */
@@ -109,7 +128,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         // Load the movie's poster.
 
         ImageView moviePosterImageView = findViewById(R.id.iv_movie_poster);
-        moviePosterImageView.setTransitionName(getIntent().getStringExtra(MainActivity.EXTRA_TRANSITION_NAME));
+        moviePosterImageView.setTransitionName("poster");
         Picasso.get()
                 .load(RetroFitUtils.getPosterUrl(this, mMovie.getPosterPath()))
                 .placeholder(R.drawable.movie_poster_placeholder)
@@ -321,12 +340,14 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private void toggleFavorite() {
         mMovie.setIsFavorite(!mMovie.getIsFavorite());
-        if (mMovie.getIsFavorite()) {
-            mMovieFavoriteButton.setBackground(getDrawable(R.drawable.ic_star_black_24dp));
-            mAppDatabase.movieDao().update(mMovie);
-        } else {
-            mMovieFavoriteButton.setBackground(getDrawable(R.drawable.ic_star_border_black_24dp));
-            mAppDatabase.movieDao().update(mMovie);
-        }
+        mMovieFavoriteButton.setBackground(getDrawable(
+                mMovie.getIsFavorite() ? R.drawable.ic_star_black_24dp : R.drawable.ic_star_border_black_24dp
+        ));
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                mAppDatabase.movieDao().update(mMovie);
+            }
+        });
     }
 }

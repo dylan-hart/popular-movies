@@ -1,6 +1,7 @@
 package com.udacity.popularmovies;
 
-import android.app.SharedElementCallback;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -11,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import com.udacity.popularmovies.data.Movie;
 import com.udacity.popularmovies.data.Page;
 import com.udacity.popularmovies.database.AppDatabase;
@@ -19,13 +19,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import java.util.List;
-import java.util.Map;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getName();
-    public final static String EXTRA_TRANSITION_NAME = "TRANSITION_NAME";
-    private final static String SAVED_SELECTED_MOVIE = "SELECTED_MOVIE";
     private final static String SAVED_MOVIE_TYPE = "MOVIE_TYPE";
     private final static String SAVED_POPULAR_MOVIES = "POPULAR_MOVIES";
     private final static String SAVED_TOP_RATED_MOVIES = "TOP_RATED_MOVIES";
@@ -40,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private final MoviesAdapter mMoviesAdapter = new MoviesAdapter();
-    private int mViewPosition = 0;
     private Movie[] mPopularMovies;
     private Movie[] mTopRatedMovies;
     private MovieType mMovieType = MovieType.UNINITIALIZED;
@@ -62,22 +58,6 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             showPopularMovies();
         } else {
-            mViewPosition = savedInstanceState.getInt(SAVED_SELECTED_MOVIE);
-            setExitSharedElementCallback(new SharedElementCallback() {
-                @Override
-                public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                    super.onMapSharedElements(names, sharedElements);
-                    if (sharedElements.isEmpty()) {
-                        RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
-                        if (layoutManager != null) {
-                            View view = layoutManager.findViewByPosition(mViewPosition);
-                            if (view != null) {
-                                sharedElements.put(names.get(0), view);
-                            }
-                        }
-                    }
-                }
-            });
 
             Parcelable savedLayout = savedInstanceState.getParcelable(SAVED_RECYCLER_LAYOUT);
             RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
@@ -91,13 +71,13 @@ public class MainActivity extends AppCompatActivity {
 
             if (mMovieType == MovieType.MOST_POPULAR) mMoviesAdapter.setMovieData(mPopularMovies);
             else if (mMovieType == MovieType.TOP_RATED) mMoviesAdapter.setMovieData(mTopRatedMovies);
+            else if (mMovieType == MovieType.FAVORITE) showFavorites();
         }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(SAVED_SELECTED_MOVIE, mViewPosition);
         outState.putSerializable(SAVED_MOVIE_TYPE, mMovieType);
         outState.putParcelableArray(SAVED_POPULAR_MOVIES, mPopularMovies);
         outState.putParcelableArray(SAVED_TOP_RATED_MOVIES, mTopRatedMovies);
@@ -156,7 +136,12 @@ public class MainActivity extends AppCompatActivity {
                         Page page = response.body();
                         if (page != null) {
                             mPopularMovies = page.getMovies();
-                            mAppDatabase.movieDao().insert(mPopularMovies);
+                            Executors.newSingleThreadExecutor().execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mAppDatabase.movieDao().insert(mPopularMovies);
+                                }
+                            });
                             mMoviesAdapter.setMovieData(mPopularMovies);
                         }
                     }
@@ -184,6 +169,12 @@ public class MainActivity extends AppCompatActivity {
                         Page page = response.body();
                         if (page != null) {
                             mTopRatedMovies = page.getMovies();
+                            Executors.newSingleThreadExecutor().execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mAppDatabase.movieDao().insert(mTopRatedMovies);
+                                }
+                            });
                             mMoviesAdapter.setMovieData(mTopRatedMovies);
                         }
                     }
@@ -200,8 +191,15 @@ public class MainActivity extends AppCompatActivity {
     private void showFavorites() {
         if (mMovieType != MovieType.FAVORITE) {
             mMovieType = MovieType.FAVORITE;
-            // TODO
-            mMoviesAdapter.setMovieData(new Movie[] {});
+            LiveData<Movie[]> favorites = mAppDatabase.movieDao().loadFavorites();
+            favorites.observe(this, new Observer<Movie[]>() {
+                @Override
+                public void onChanged(@Nullable Movie[] movies) {
+                    if (mMovieType == MovieType.FAVORITE) {
+                        mMoviesAdapter.setMovieData(movies);
+                    }
+                }
+            });
         }
     }
 }
