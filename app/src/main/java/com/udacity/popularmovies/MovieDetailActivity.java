@@ -142,7 +142,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         // Display the movie's release date.
 
         TextView movieYearTextView = findViewById(R.id.tv_movie_year);
-        movieYearTextView.setText(getYear(mMovie.getReleaseDate()));
+        movieYearTextView.setText(formatDate(mMovie.getReleaseDate()));
 
         /* Get a reference to the layout's TextView for movie duration.
          * (A network request needs to be sent to retrieve the movie duration,
@@ -191,7 +191,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         getReviews(mMovie.getId());
     }
 
-    private String getYear(String dateString) {
+    private String formatDate(String dateString) {
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         Date date = null;
         try {
@@ -199,7 +199,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         } catch (ParseException e) {
             Log.e(TAG, e.getMessage());
         }
-        SimpleDateFormat formatYear = new SimpleDateFormat("yyyy", Locale.US);
+        SimpleDateFormat formatYear = new SimpleDateFormat("dd MMMM yyyy", Locale.US);
         return formatYear.format(date);
     }
 
