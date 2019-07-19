@@ -18,12 +18,12 @@ public class DetailViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public void setDetailMovieId(int id) {
+    void setDetailMovieId(int id) {
         Log.d(TAG, "Querying the database.");
         detailMovie = AppDatabase.getInstance(this.getApplication()).movieDao().load(id);
     }
 
-    public LiveData<Movie> getDetailMovie() {
+    LiveData<Movie> getDetailMovie() {
         return detailMovie;
     }
 }

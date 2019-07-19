@@ -1,7 +1,6 @@
 package com.udacity.popularmovies;
 
 import android.app.SharedElementCallback;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
