@@ -1,8 +1,7 @@
 package com.udacity.popularmovies;
 
-import android.app.SharedElementCallback;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,7 +20,6 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.udacity.popularmovies.data.*;
 import com.udacity.popularmovies.database.AppDatabase;
-import com.udacity.popularmovies.database.MovieDao;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,10 +28,7 @@ import retrofit2.internal.EverythingIsNonNull;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class MovieDetailActivity extends AppCompatActivity {
@@ -65,8 +60,12 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         mAppDatabase = AppDatabase.getInstance(getApplicationContext());
         mMovie = getIntent().getParcelableExtra(Movie.EXTRA_MOVIE);
-        LiveData<Movie> movie = mAppDatabase.movieDao().load(mMovie.getId());
-        movie.observe(this, new Observer<Movie>() {
+
+        DetailViewModel viewModel = ViewModelProviders.of(this).get(DetailViewModel.class);
+        if (viewModel.getDetailMovie() == null ||
+            viewModel.getDetailMovie().getValue() == null ||
+            viewModel.getDetailMovie().getValue().getId() != mMovie.getId()) viewModel.setDetailMovieId(mMovie.getId());
+        viewModel.getDetailMovie().observe(this, new Observer<Movie>() {
             @Override
             public void onChanged(@Nullable Movie movie) {
                 Log.d(TAG, "Receiving database update from LiveData.");
